@@ -4,10 +4,18 @@ using WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Load configurations 
 builder.Host.AddConfiguration();
 
-builder.Services.AddSingleton<ILogger>(sp => sp.GetRequiredService<ILogger<Program>>());
+// Add options 
+builder.Services
+    .AddSingleton<ILogger>(sp => sp.GetRequiredService<ILogger<Program>>())
+    .AddAppOptions();
 
+// Add semantic kernel services 
+builder.Services.AddSemanticKernel();
+
+// Add rest services
 builder.Services
     .AddSwaggerGen()
     .AddControllers()
@@ -21,13 +29,13 @@ builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
+// Configure endpoints
 app.MapControllers();
 app.MapHealthChecks("/health");
 
-
+// Configure swagger
 app.UseSwagger();
 app.UseSwaggerUI();
-
 app.MapWhen(
     ctx => ctx.Request.Path == "/",
     appBuilder => appBuilder.Run(async ctx => await Task.Run(() => ctx.Response.Redirect("/swagger"))));

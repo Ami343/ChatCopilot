@@ -6,7 +6,7 @@ public static class ConfigurationExtensions
     {
         var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-        host.ConfigureAppConfiguration((builderCtx, configurationBuilder) =>
+        host.ConfigureAppConfiguration((_, configurationBuilder) =>
         {
             configurationBuilder.AddJsonFile(
                 path: "appsettings.json",
