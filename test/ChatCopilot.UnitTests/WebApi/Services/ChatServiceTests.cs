@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Orchestration;
 using Moq;
@@ -9,6 +10,7 @@ namespace ChatCopilot.UnitTests.WebApi.Services;
 public class ChatServiceTests
 {
     private readonly Mock<IKernel> _kernelMock = new();
+    private readonly Mock<ILogger<ChatService>> _loggerMock = new();
 
     [Fact]
     public async Task Ask_WhenCalledWithGivenParam_ShouldCallKernelApi()
@@ -32,5 +34,5 @@ public class ChatServiceTests
             .Verifiable(Times.Once);
     }
 
-    private ChatService GetSut() => new(_kernelMock.Object);
+    private ChatService GetSut() => new(_kernelMock.Object, _loggerMock.Object);
 }

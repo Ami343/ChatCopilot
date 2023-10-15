@@ -14,12 +14,13 @@ public class ChatController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Chat(
         [FromServices] IChatService chatService,
-        [FromBody] AskRequest request)
+        [FromBody] AskRequest request,
+        CancellationToken cancellationToken)
     {
-        var result = await chatService.Ask(request);
+        var result = await chatService.Ask(request, cancellationToken);
 
-        return result.Value is null
-            ? Ok("It was not possible to process your input.")
+        return result is null
+            ? NotFound("It was not possible to process your input.")
             : Ok(result);
     }
 }
