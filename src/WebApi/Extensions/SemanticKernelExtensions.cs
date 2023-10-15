@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
 using WebApi.Options;
 
@@ -10,7 +11,7 @@ public static class SemanticKernelExtensions
         services
             .AddScoped<IKernel>((sp) =>
             {
-                var azureOpenAiOptions = sp.GetRequiredService<AzureOpenAiOptions>();
+                var azureOpenAiOptions = sp.GetRequiredService<IOptions<AzureOpenAiOptions>>().Value;
 
                 var kernel = new KernelBuilder()
                     .WithAzureChatCompletionService(

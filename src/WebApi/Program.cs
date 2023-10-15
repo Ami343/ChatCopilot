@@ -12,12 +12,13 @@ builder.Services
     .AddSingleton<ILogger>(sp => sp.GetRequiredService<ILogger<Program>>())
     .AddAppOptions();
 
-// Add semantic kernel services 
-builder.Services.AddSemanticKernel();
+// Add semantic kernel and chat services 
+builder.Services
+    .AddSemanticKernel()
+    .AddServices();
 
 // Add rest services
 builder.Services
-    .AddSwaggerGen()
     .AddControllers()
     .AddJsonOptions(opt =>
     {
@@ -26,6 +27,9 @@ builder.Services
     });
 
 builder.Services.AddHealthChecks();
+builder.Services
+    .AddSwaggerGen()
+    .AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
