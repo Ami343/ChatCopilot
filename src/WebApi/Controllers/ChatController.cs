@@ -5,11 +5,10 @@ using WebApi.Services.Interfaces;
 namespace WebApi.Controllers;
 
 [ApiController]
-[Route("chats")]
 public class ChatController : ControllerBase
 {
-    [Route("asks")]
     [HttpPost]
+    [Route("chats")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Chat(

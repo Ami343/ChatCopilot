@@ -7,6 +7,7 @@ public static class AppOptionExtensions
     public static IServiceCollection AddAppOptions(this IServiceCollection services)
     {
         AddOption<AzureOpenAiOptions>(services, AzureOpenAiOptions.SectionName);
+        AddOption<PromptOptions>(services, PromptOptions.SectionName);
 
         return services;
     }

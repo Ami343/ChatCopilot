@@ -23,7 +23,7 @@ public static class SemanticKernelExtensions
                     .WithLoggerFactory(sp.GetRequiredService<ILoggerFactory>())
                     .Build();
 
-                kernel.RegisterSemanticKernelPlugins();
+                kernel.RegisterSemanticKernelPlugins(sp);
 
                 return kernel;
             });
@@ -31,10 +31,12 @@ public static class SemanticKernelExtensions
         return services;
     }
 
-    private static IKernel RegisterSemanticKernelPlugins(this IKernel kernel)
+    private static IKernel RegisterSemanticKernelPlugins(this IKernel kernel, IServiceProvider sp)
     {
         // Custom plugins
-        kernel.ImportFunctions(new ChatPlugin(kernel), Constants.Constants.ChatPluginName);
+        kernel.ImportFunctions(
+            new ChatPlugin(kernel, sp.GetRequiredService<IOptions<PromptOptions>>().Value),
+            Constants.Constants.ChatPluginName);
 
         // Built in plugins
         kernel.ImportFunctions(new TimePlugin(), nameof(TimePlugin));

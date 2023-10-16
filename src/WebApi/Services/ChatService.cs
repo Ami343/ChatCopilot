@@ -35,13 +35,13 @@ public class ChatService : IChatService
         {
             return _kernel.Functions.GetFunction(
                 pluginName: Constants.Constants.ChatPluginName,
-                functionName: "ProcessUserInput");
+                functionName: Constants.Constants.ChatPluginChatFunction);
         }
         catch (SKException e)
         {
             _logger.LogError("Failed to get function: {pluginName}/{functionName}, error: {exception}",
                 Constants.Constants.ChatPluginName,
-                Constants.Constants.ChatPluginName,
+                Constants.Constants.ChatPluginChatFunction,
                 e);
 
             return null;
@@ -62,7 +62,7 @@ public class ChatService : IChatService
         {
             _logger.LogError("Failed to get function: {pluginName}/{functionName}, error: {exception}",
                 Constants.Constants.ChatPluginName,
-                Constants.Constants.ChatPluginName,
+                Constants.Constants.ChatPluginChatFunction,
                 e);
 
             return null;
