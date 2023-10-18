@@ -1,7 +1,7 @@
-using WebApi.Models.Request;
-using WebApi.Models.Response;
+using Application.Models.Request;
+using Application.Models.Response;
 
-namespace WebApi.Services.Interfaces;
+namespace Application.Services.Interfaces;
 
 public interface IChatService
 {

@@ -1,8 +1,9 @@
+using Application.Constants;
+using Application.Options;
+using Application.Plugins;
 using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Plugins.Core;
-using WebApi.Options;
-using WebApi.Plugins;
 
 namespace WebApi.Extensions;
 
@@ -36,7 +37,7 @@ public static class SemanticKernelExtensions
         // Custom plugins
         kernel.ImportFunctions(
             new ChatPlugin(kernel, sp.GetRequiredService<IOptions<PromptOptions>>().Value),
-            Constants.Constants.ChatPluginName);
+            Constants.ChatPluginName);
 
         // Built in plugins
         kernel.ImportFunctions(new TimePlugin(), nameof(TimePlugin));

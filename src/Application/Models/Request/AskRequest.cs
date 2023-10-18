@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApi.Models.Request;
+namespace Application.Models.Request;
 
 public record AskRequest
 {

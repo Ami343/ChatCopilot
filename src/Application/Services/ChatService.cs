@@ -1,11 +1,12 @@
+using Application.Models.Request;
+using Application.Models.Response;
+using Application.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Diagnostics;
 using Microsoft.SemanticKernel.Orchestration;
-using WebApi.Models.Request;
-using WebApi.Models.Response;
-using WebApi.Services.Interfaces;
 
-namespace WebApi.Services;
+namespace Application.Services;
 
 public class ChatService : IChatService
 {

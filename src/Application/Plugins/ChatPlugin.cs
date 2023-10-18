@@ -1,10 +1,10 @@
 using System.ComponentModel;
+using Application.Options;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.AI.ChatCompletion;
 using Microsoft.SemanticKernel.Orchestration;
-using WebApi.Options;
 
-namespace WebApi.Plugins;
+namespace Application.Plugins;
 
 public class ChatPlugin
 {

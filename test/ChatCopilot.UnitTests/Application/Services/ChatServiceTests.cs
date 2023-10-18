@@ -1,9 +1,9 @@
+using Application.Models.Request;
+using Application.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Orchestration;
 using Moq;
-using WebApi.Models.Request;
-using WebApi.Services;
 
 namespace ChatCopilot.UnitTests.WebApi.Services;
 

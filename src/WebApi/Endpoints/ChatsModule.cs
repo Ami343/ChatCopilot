@@ -1,6 +1,6 @@
+using Application.Models.Request;
+using Application.Services.Interfaces;
 using Carter;
-using WebApi.Models.Request;
-using WebApi.Services.Interfaces;
 
 namespace WebApi.Endpoints;
 

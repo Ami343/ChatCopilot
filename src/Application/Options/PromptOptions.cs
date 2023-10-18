@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApi.Options;
+namespace Application.Options;
 
 public sealed record PromptOptions
 {

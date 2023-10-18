@@ -1,4 +1,4 @@
-namespace WebApi.Constants;
+namespace Application.Constants;
 
 public static class Constants
 {

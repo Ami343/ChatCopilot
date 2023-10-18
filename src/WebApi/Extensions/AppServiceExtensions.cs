@@ -1,5 +1,5 @@
-using WebApi.Services;
-using WebApi.Services.Interfaces;
+using Application.Services;
+using Application.Services.Interfaces;
 
 namespace WebApi.Extensions;
 

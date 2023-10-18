@@ -8,8 +8,6 @@
 
     <ItemGroup>
       <PackageReference Include="Carter" Version="7.2.0" />
-      <PackageReference Include="Microsoft.SemanticKernel" Version="1.0.0-beta1" />
-      <PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.0.0-beta1" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
@@ -20,6 +18,10 @@
       <Content Update="appsettings.Development.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Application\Application.csproj" />
     </ItemGroup>
 
 </Project>
