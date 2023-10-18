@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Application;
 using Carter;
 using WebApi.Extensions;
 
@@ -17,6 +18,9 @@ builder.Services
 builder.Services
     .AddSemanticKernel()
     .AddServices();
+
+// Add application services
+builder.Services.AddApplicationServices();
 
 // Add rest services
 builder.Services

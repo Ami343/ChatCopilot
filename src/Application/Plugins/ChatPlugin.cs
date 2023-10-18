@@ -72,8 +72,8 @@ public class ChatPlugin
         var chatCompletion = _kernel.GetService<IChatCompletion>();
         var promptTemplate = chatCompletion.CreateNewChat(systemInstructions);
 
-        var userIntent = await ExtractUserIntent(context, cancellationToken);
-        promptTemplate.AddSystemMessage(userIntent);
+        // var userIntent = await ExtractUserIntent(context, cancellationToken);
+        // promptTemplate.AddSystemMessage(userIntent);
 
         var input = context.Variables["input"];
 

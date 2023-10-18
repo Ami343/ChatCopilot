@@ -1,5 +1,3 @@
-using Application.Models.Request;
-using Application.Models.Response;
 using Application.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
@@ -19,15 +17,15 @@ public class ChatService : IChatService
         _logger = logger;
     }
 
-    public async Task<AskResponse?> Ask(AskRequest request, CancellationToken cancellationToken = default)
+    public async Task<string?> Ask(string prompt, CancellationToken cancellationToken = default)
     {
         var function = GetFunction();
 
         if (function is null) return null;
 
-        var result = await ExecuteFunction(request.Input, function);
+        var result = await ExecuteFunction(prompt, function);
 
-        return new AskResponse(result?.GetValue<string>());
+        return result?.GetValue<string>();
     }
 
     private ISKFunction? GetFunction()

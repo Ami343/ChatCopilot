@@ -1,6 +1,6 @@
-using Application.Models.Request;
-using Application.Services.Interfaces;
+using Application.Chats.Commands.Chat;
 using Carter;
+using MediatR;
 
 namespace WebApi.Endpoints;
 
@@ -14,9 +14,9 @@ public class ChatsModule : CarterModule
     {
         app.MapPost(
             pattern: "/",
-            handler: async (AskRequest request, IChatService service, CancellationToken cancellationToken) =>
+            handler: async (ChatRequest request, ISender sender, CancellationToken cancellationToken) =>
             {
-                var result = await service.Ask(request, cancellationToken);
+                var result = await sender.Send(request, cancellationToken);
 
                 return Results.Ok(result);
             });

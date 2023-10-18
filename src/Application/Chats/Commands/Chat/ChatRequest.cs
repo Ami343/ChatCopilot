@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using MediatR;
 
-namespace Application.Models.Request;
+namespace Application.Chats.Commands.Chat;
 
-public record AskRequest
+public record ChatRequest : IRequest<ChatCommandResponse>
 {
     [Required] public string Input { get; init; } = string.Empty;
 }

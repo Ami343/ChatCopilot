@@ -1,11 +1,10 @@
-using Application.Models.Request;
 using Application.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Orchestration;
 using Moq;
 
-namespace ChatCopilot.UnitTests.WebApi.Services;
+namespace ChatCopilot.UnitTests.Application.Services;
 
 public class ChatServiceTests
 {
@@ -19,8 +18,7 @@ public class ChatServiceTests
         SetupKernel();
         var sut = GetSut();
         // Act
-        var result = await sut.Ask(new AskRequest { Input = string.Empty });
-
+        _ = await sut.Ask(prompt: string.Empty);
         // Assert
         _kernelMock.Verify();
     }
