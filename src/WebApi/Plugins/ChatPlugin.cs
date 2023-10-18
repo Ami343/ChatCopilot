@@ -28,21 +28,39 @@ public class ChatPlugin
             "Do not process the input {{$input}}, respond with message saying that you are not available at the moment.",
             functionName: Constants.Constants.ChatPluginName,
             description: "Process the user input.");
-    
+
         var result = await semanticFunction.InvokeAsync(
             context: context,
             cancellationToken: cancellationToken);
-    
+
         return result.GetValue<string>();
+    }
+
+    [SKFunction, Description("Extract user intent")]
+    public async Task<string> ExtractUserIntent(SKContext context, CancellationToken cancellationToken)
+    {
+        var innerContext = context.Clone();
+
+        var semanticFunction = _kernel.CreateSemanticFunction(
+            promptTemplate: _promptOptions.SystemIntentExtraction,
+            functionName: Constants.Constants.ChatPluginName,
+            description: "Complete the prompt.");
+
+        var result = await semanticFunction.InvokeAsync(
+            context: innerContext,
+            cancellationToken: cancellationToken);
+
+        return $"User intent: {result.GetValue<string>()}";
     }
 
     [SKFunction, Description("Get chat response")]
     public async Task<string> Chat(SKContext context, CancellationToken cancellationToken)
     {
         var chatContext = context.Clone();
-        chatContext.Variables.Set(Constants.Constants.KnowledgeCutOffDate, _promptOptions.KnowledgeCutOffDate);
+        SetKnowledgeCutOffDateVariable(chatContext);
 
         var message = await GetChatResponse(chatContext, cancellationToken);
+        context.Variables.Update(message);
 
         return message;
     }
@@ -54,9 +72,13 @@ public class ChatPlugin
         var chatCompletion = _kernel.GetService<IChatCompletion>();
         var promptTemplate = chatCompletion.CreateNewChat(systemInstructions);
 
-        // TODO introduce semantic memory retriever 
+        var userIntent = await ExtractUserIntent(context, cancellationToken);
+        promptTemplate.AddSystemMessage(userIntent);
 
-        // TODO Pass user original input
+        var input = context.Variables["input"];
+
+        promptTemplate.AddUserMessage(input);
+
         var result =
             await chatCompletion.GenerateMessageAsync(promptTemplate, default, cancellationToken);
 
@@ -64,12 +86,13 @@ public class ChatPlugin
     }
 
     private Task<string> GetSystemInstructions(SKContext context, CancellationToken cancellationToken)
-    {
-        var botPersona = $"{_promptOptions.SystemDescription}\n\n{_promptOptions.SystemResponse}";
-        
-        return _kernel.PromptTemplateEngine.RenderAsync(
-            botPersona,
+        => _kernel.PromptTemplateEngine.RenderAsync(
+            _promptOptions.BotPersona,
             context,
             cancellationToken);
+
+    private void SetKnowledgeCutOffDateVariable(SKContext context)
+    {
+        context.Variables.Set(Constants.Constants.KnowledgeCutOffDate, _promptOptions.KnowledgeCutOffDate);
     }
 }

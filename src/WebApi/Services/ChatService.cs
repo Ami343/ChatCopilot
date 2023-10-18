@@ -77,6 +77,5 @@ public class ChatService : IChatService
         return contextVariables;
     }
 
-    private static CancellationTokenSource GetCancellationTokenSource()
-        => new CancellationTokenSource(TimeSpan.FromSeconds(15));
+    private static CancellationTokenSource GetCancellationTokenSource() => new(TimeSpan.FromSeconds(15));
 }
