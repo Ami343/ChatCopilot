@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Carter;
 using WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,7 +30,8 @@ builder.Services
 builder.Services.AddHealthChecks();
 builder.Services
     .AddSwaggerGen()
-    .AddEndpointsApiExplorer();
+    .AddEndpointsApiExplorer()
+    .AddCarter();
 
 var app = builder.Build();
 
@@ -43,6 +45,8 @@ app.UseSwaggerUI();
 app.MapWhen(
     ctx => ctx.Request.Path == "/",
     appBuilder => appBuilder.Run(async ctx => await Task.Run(() => ctx.Response.Redirect("/swagger"))));
+
+app.MapCarter();
 
 app.Run();
 
