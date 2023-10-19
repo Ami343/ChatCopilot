@@ -18,7 +18,10 @@ public class ChatServiceTests
         SetupKernel();
         var sut = GetSut();
         // Act
-        _ = await sut.Ask(prompt: string.Empty);
+        _ = await sut.Ask(
+            prompt: string.Empty,
+            pluginName: string.Empty,
+            functionName: string.Empty);
         // Assert
         _kernelMock.Verify();
     }

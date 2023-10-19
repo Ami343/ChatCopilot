@@ -17,24 +17,26 @@ public class ChatService : IChatService
         _logger = logger;
     }
 
-    public async Task<string?> Ask(string prompt, CancellationToken cancellationToken = default)
+    public async Task<string?> Ask(
+        string prompt,
+        string pluginName,
+        string functionName,
+        CancellationToken cancellationToken = default)
     {
-        var function = GetFunction();
-
-        if (function is null) return null;
+        var function = GetFunction(functionName, pluginName);
 
         var result = await ExecuteFunction(prompt, function);
 
         return result?.GetValue<string>();
     }
 
-    private ISKFunction? GetFunction()
+    private ISKFunction GetFunction(string functionName, string pluginName)
     {
         try
         {
             return _kernel.Functions.GetFunction(
-                pluginName: Constants.Constants.ChatPluginName,
-                functionName: Constants.Constants.ChatPluginChatFunction);
+                pluginName: pluginName,
+                functionName: functionName);
         }
         catch (SKException e)
         {
@@ -43,11 +45,11 @@ public class ChatService : IChatService
                 Constants.Constants.ChatPluginChatFunction,
                 e);
 
-            return null;
+            throw;
         }
     }
 
-    private async Task<KernelResult?> ExecuteFunction(string input, ISKFunction function)
+    private async Task<KernelResult> ExecuteFunction(string input, ISKFunction function)
     {
         try
         {
@@ -59,12 +61,8 @@ public class ChatService : IChatService
         }
         catch (Exception e)
         {
-            _logger.LogError("Failed to get function: {pluginName}/{functionName}, error: {exception}",
-                Constants.Constants.ChatPluginName,
-                Constants.Constants.ChatPluginChatFunction,
-                e);
-
-            return null;
+            _logger.LogError("Failed to execute function, error: {exception}", e);
+            throw;
         }
     }
 

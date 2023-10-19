@@ -16,8 +16,7 @@ builder.Services
 
 // Add semantic kernel and chat services 
 builder.Services
-    .AddSemanticKernel()
-    .AddServices();
+    .AddSemanticKernel();
 
 // Add application services
 builder.Services.AddApplicationServices();
@@ -35,9 +34,13 @@ builder.Services.AddHealthChecks();
 builder.Services
     .AddSwaggerGen()
     .AddEndpointsApiExplorer()
-    .AddCarter();
+    .AddCarter()
+    .AddGlobalExceptionMiddleware();
 
 var app = builder.Build();
+
+// Configure middleware 
+app.UseGlobalExceptionMiddleware();
 
 // Configure endpoints
 app.MapControllers();
