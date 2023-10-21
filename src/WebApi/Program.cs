@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Application;
 using Carter;
+using Infrastructure;
 using WebApi.Extensions;
 using WebApi.Middlewares;
 
@@ -20,7 +21,9 @@ builder.Services
     .AddSemanticKernel();
 
 // Add application services
-builder.Services.AddApplicationServices();
+builder.Services
+    .AddApplicationServices()
+    .AddInfrastructureServices(builder.Configuration);
 
 // Add rest services
 builder.Services

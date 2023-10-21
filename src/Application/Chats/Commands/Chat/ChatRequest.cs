@@ -1,9 +1,15 @@
 using System.ComponentModel.DataAnnotations;
-using MediatR;
 
 namespace Application.Chats.Commands.Chat;
 
-public record ChatRequest : IRequest<ChatCommandResponse>
+public class ChatRequest
 {
-    [Required] public string Input { get; init; } = string.Empty;
+    [Required] public string Input { get; set; } = string.Empty;
+
+    public ChatCommand GetCommand(Guid chatSessionId)
+        => new ChatCommand
+        {
+            Input = Input,
+            ChatSessionId = chatSessionId
+        };
 }

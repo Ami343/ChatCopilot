@@ -7,7 +7,7 @@ public class Maybe<T> : IEquatable<Maybe<T>>
     private Maybe(T? value)
         => _value = value;
 
-    public static Maybe<T> From(T value)
+    public static Maybe<T> From(T? value)
         => new Maybe<T>(value);
 
     public static Maybe<T> None

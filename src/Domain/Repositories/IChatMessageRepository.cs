@@ -2,7 +2,7 @@ using Domain.Entities;
 
 namespace Domain.Repositories;
 
-public interface IChatRepository
+public interface IChatMessageRepository
 {
     Task Create(ChatMessage chatMessage);
 

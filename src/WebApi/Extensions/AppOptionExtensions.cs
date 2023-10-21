@@ -1,4 +1,5 @@
 using Application.Options;
+using Infrastructure.Options;
 
 namespace WebApi.Extensions;
 
@@ -8,6 +9,7 @@ public static class AppOptionExtensions
     {
         AddOption<AzureOpenAiOptions>(services, AzureOpenAiOptions.SectionName);
         AddOption<PromptOptions>(services, PromptOptions.SectionName);
+        AddOption<DatabaseOptions>(services, DatabaseOptions.SectionName);
 
         return services;
     }
