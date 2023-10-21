@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Application;
 using Carter;
 using WebApi.Extensions;
+using WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 

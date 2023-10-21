@@ -37,3 +37,20 @@ public class GlobalExceptionsMiddleware : IMiddleware
         }
     }
 }
+
+public static class GlobalExceptionsMiddlewareExtensions
+{
+    public static IServiceCollection AddGlobalExceptionMiddleware(this IServiceCollection services)
+    {
+        services.AddTransient<GlobalExceptionsMiddleware>();
+
+        return services;
+    }
+
+    public static IApplicationBuilder UseGlobalExceptionMiddleware(this IApplicationBuilder app)
+    {
+        app.UseMiddleware<GlobalExceptionsMiddleware>();
+
+        return app;
+    }
+}
