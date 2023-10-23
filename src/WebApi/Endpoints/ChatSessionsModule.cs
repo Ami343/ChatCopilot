@@ -1,4 +1,3 @@
-using Application.Chats.Queries.GetByChatSessionId;
 using Application.ChatSessions.Commands.Create;
 using Carter;
 using MediatR;
@@ -22,19 +21,6 @@ public class ChatSessionsModule : CarterModule
                 CancellationToken cancellationToken) =>
             {
                 var result = await sender.Send(request, cancellationToken);
-
-                return Results.Ok(result);
-            });
-
-        app.MapGet(
-            pattern: "/{chatSessionId:guid}",
-            handler: async (
-                [FromRoute] Guid chatSessionId,
-                [FromServices] ISender sender, CancellationToken cancellationToken) =>
-            {
-                var result = await sender.Send(
-                    new GetByChatSessionIdQueryParams { ChatSessionId = chatSessionId },
-                    cancellationToken);
 
                 return Results.Ok(result);
             });

@@ -9,8 +9,12 @@ public static class ApplicationIoCRegistration
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
+        // CQRS
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<ChatRequest>());
+        
+        // Services
         services.AddScoped<IChatService, ChatService>();
+        services.AddScoped<IChatHistoryService, ChatHistoryService>();
 
         return services;
     }

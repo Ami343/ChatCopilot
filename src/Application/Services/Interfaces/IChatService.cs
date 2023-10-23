@@ -2,9 +2,8 @@ namespace Application.Services.Interfaces;
 
 public interface IChatService
 {
-    Task<string?> Ask(
+    Task<string?> GetBotResponse(
         string prompt,
-        string pluginName,
-        string functionName,
+        Guid chatSessionId,
         CancellationToken cancellationToken = default);
 }

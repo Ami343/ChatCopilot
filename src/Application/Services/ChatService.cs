@@ -1,5 +1,7 @@
+using Application.Options;
 using Application.Services.Interfaces;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Diagnostics;
 using Microsoft.SemanticKernel.Orchestration;
@@ -10,33 +12,43 @@ public class ChatService : IChatService
 {
     private readonly IKernel _kernel;
     private readonly ILogger<ChatService> _logger;
+    private readonly PromptOptions _promptOptions;
 
-    public ChatService(IKernel kernel, ILogger<ChatService> logger)
+    public ChatService(
+        IKernel kernel,
+        ILogger<ChatService> logger,
+        IOptions<PromptOptions> promptOptions)
     {
         _kernel = kernel;
         _logger = logger;
+        _promptOptions = promptOptions.Value;
     }
 
-    public async Task<string?> Ask(
+    public async Task<string?> GetBotResponse(
         string prompt,
-        string pluginName,
-        string functionName,
+        Guid chatSessionId,
         CancellationToken cancellationToken = default)
     {
-        var function = GetFunction(functionName, pluginName);
+        var function = GetFunction();
 
-        var result = await ExecuteFunction(prompt, function);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var ctxVariables = GetContextVariables(input: prompt, chatSessionId: chatSessionId);
+
+        var result = await ExecuteFunction(function, ctxVariables);
+
+        cancellationToken.ThrowIfCancellationRequested();
 
         return result?.GetValue<string>();
     }
 
-    private ISKFunction GetFunction(string functionName, string pluginName)
+    private ISKFunction GetFunction()
     {
         try
         {
             return _kernel.Functions.GetFunction(
-                pluginName: pluginName,
-                functionName: functionName);
+                pluginName: Constants.Constants.ChatPluginName,
+                functionName: Constants.Constants.ChatPluginChatFunction);
         }
         catch (SKException e)
         {
@@ -49,15 +61,15 @@ public class ChatService : IChatService
         }
     }
 
-    private async Task<KernelResult> ExecuteFunction(string input, ISKFunction function)
+    private async Task<KernelResult> ExecuteFunction(
+        ISKFunction function,
+        ContextVariables contextVariables)
     {
         try
         {
             using var cts = GetCancellationTokenSource();
 
-            var ctxVariables = GetContextVariables(input);
-
-            return await _kernel.RunAsync(function, ctxVariables, cts.Token);
+            return await _kernel.RunAsync(function, contextVariables, cts.Token);
         }
         catch (Exception e)
         {
@@ -66,13 +78,16 @@ public class ChatService : IChatService
         }
     }
 
-    private static ContextVariables GetContextVariables(string input)
+    private static ContextVariables GetContextVariables(
+        string input,
+        Guid chatSessionId)
     {
-        var contextVariables = new ContextVariables();
-        contextVariables.Set("input", input);
+        var contextVariables = new ContextVariables(input);
+        contextVariables.Set("chatSessionId", chatSessionId.ToString());
 
         return contextVariables;
     }
 
-    private static CancellationTokenSource GetCancellationTokenSource() => new(TimeSpan.FromSeconds(15));
+    private CancellationTokenSource GetCancellationTokenSource()
+        => new(TimeSpan.FromSeconds(_promptOptions.PromptTimeoutInSeconds));
 }

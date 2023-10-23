@@ -1,6 +1,7 @@
 using Application.Constants;
 using Application.Options;
 using Application.Plugins;
+using Application.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Plugins.Core;
@@ -36,8 +37,11 @@ public static class SemanticKernelExtensions
     {
         // Custom plugins
         kernel.ImportFunctions(
-            new ChatPlugin(kernel, sp.GetRequiredService<IOptions<PromptOptions>>().Value),
-            Constants.ChatPluginName);
+            functionsInstance: new ChatPlugin(
+                kernel,
+                sp.GetRequiredService<IOptions<PromptOptions>>().Value,
+                sp.GetRequiredService<IChatHistoryService>()),
+            pluginName: Constants.ChatPluginName);
 
         // Built in plugins
         kernel.ImportFunctions(new TimePlugin(), nameof(TimePlugin));

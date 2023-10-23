@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using Application.Options;
+using Application.Services.Interfaces;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.AI.ChatCompletion;
 using Microsoft.SemanticKernel.Orchestration;
@@ -12,28 +13,26 @@ public class ChatPlugin
 
     private readonly PromptOptions _promptOptions;
 
+    private readonly IChatHistoryService _chatHistoryService;
+
     public ChatPlugin(
         IKernel kernel,
-        PromptOptions promptOptions)
+        PromptOptions promptOptions,
+        IChatHistoryService chatHistoryService)
     {
         _kernel = kernel;
         _promptOptions = promptOptions;
+        _chatHistoryService = chatHistoryService;
     }
 
-    [SKFunction, Description("Process the user input")]
-    public async Task<string?> ProcessUserInput(SKContext context, CancellationToken cancellationToken)
+    [SKFunction, Description("Extract chat history")]
+    public Task<string> ExtractChatHistory(
+        SKContext context,
+        CancellationToken cancellationToken = default)
     {
-        var semanticFunction = _kernel.CreateSemanticFunction(
-            promptTemplate:
-            "Do not process the input {{$input}}, respond with message saying that you are not available at the moment.",
-            functionName: Constants.Constants.ChatPluginName,
-            description: "Process the user input.");
+        var chatSessionId = Guid.Parse(context.Variables["chatSessionId"]);
 
-        var result = await semanticFunction.InvokeAsync(
-            context: context,
-            cancellationToken: cancellationToken);
-
-        return result.GetValue<string>();
+        return _chatHistoryService.GetChatHistoryForBotProcessing(chatSessionId);
     }
 
     [SKFunction, Description("Extract user intent")]
@@ -41,8 +40,10 @@ public class ChatPlugin
     {
         var innerContext = context.Clone();
 
+        var chatHistoryText = await ExtractChatHistory(innerContext, cancellationToken);
+
         var semanticFunction = _kernel.CreateSemanticFunction(
-            promptTemplate: _promptOptions.SystemIntentExtraction,
+            promptTemplate: _promptOptions.GetSystemIntentExtraction(chatHistoryText),
             functionName: Constants.Constants.ChatPluginName,
             description: "Complete the prompt.");
 
@@ -60,7 +61,6 @@ public class ChatPlugin
         SetKnowledgeCutOffDateVariable(chatContext);
 
         var message = await GetChatResponse(chatContext, cancellationToken);
-        context.Variables.Update(message);
 
         return message;
     }
@@ -72,13 +72,9 @@ public class ChatPlugin
         var chatCompletion = _kernel.GetService<IChatCompletion>();
         var promptTemplate = chatCompletion.CreateNewChat(systemInstructions);
 
-        // var userIntent = await ExtractUserIntent(context, cancellationToken);
-        // promptTemplate.AddSystemMessage(userIntent);
-
-        var input = context.Variables["input"];
-
-        promptTemplate.AddUserMessage(input);
-
+        var userIntent = await ExtractUserIntent(context, cancellationToken);
+        promptTemplate.AddUserMessage(userIntent);
+       
         var result =
             await chatCompletion.GenerateMessageAsync(promptTemplate, default, cancellationToken);
 
