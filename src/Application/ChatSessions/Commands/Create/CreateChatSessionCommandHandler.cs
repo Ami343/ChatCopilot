@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace Application.ChatSessions.Commands.Create;
 
-public class CreateChatSessionCommandHandler
+public sealed class CreateChatSessionCommandHandler
     : IRequestHandler<CreateChatSessionRequest, CreateChatSessionCommandResponse>
 {
     private readonly IChatSessionRepository _chatSessionRepository;

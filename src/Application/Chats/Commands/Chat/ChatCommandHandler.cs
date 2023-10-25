@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Chats.Commands.Chat;
 
-public class ChatCommandHandler : IRequestHandler<ChatCommand, ChatCommandResponse>
+public sealed class ChatCommandHandler : IRequestHandler<ChatCommand, ChatCommandResponse>
 {
     private readonly IChatService _chatService;
     private readonly IChatMessageRepository _chatMessageRepository;

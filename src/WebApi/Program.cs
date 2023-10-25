@@ -11,6 +11,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Load configurations 
 builder.Host.AddConfiguration();
 
+// Configure json serializer
+builder.Services.ConfigureHttpJsonOptions(opt =>
+{
+    opt.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    opt.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    opt.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    opt.SerializerOptions.WriteIndented = true;
+});
+
 // Add options 
 builder.Services
     .AddSingleton<ILogger>(sp => sp.GetRequiredService<ILogger<Program>>())
@@ -25,15 +34,6 @@ builder.Services
     .AddApplicationServices()
     .AddInfrastructureServices(builder.Configuration);
 
-// Add rest services
-builder.Services
-    .AddControllers()
-    .AddJsonOptions(opt =>
-    {
-        opt.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-        opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-    });
-
 builder.Services.AddHealthChecks();
 builder.Services
     .AddSwaggerGen()
@@ -46,8 +46,7 @@ var app = builder.Build();
 // Configure middleware 
 app.UseGlobalExceptionMiddleware();
 
-// Configure endpoints
-app.MapControllers();
+// Configure health check
 app.MapHealthChecks("/health");
 
 // Configure swagger

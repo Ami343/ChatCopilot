@@ -1,7 +1,7 @@
+using System.Net;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using Application.Common;
-using Microsoft.AspNetCore.Mvc;
+using Application.Common.Exceptions;
 
 namespace WebApi.Middlewares;
 
@@ -13,12 +13,12 @@ public class GlobalExceptionsMiddleware : IMiddleware
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
     };
-    
+
 
     public GlobalExceptionsMiddleware(ILogger<GlobalExceptionsMiddleware> logger)
     {
         _logger = logger;
-        
+
     }
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
@@ -31,11 +31,27 @@ public class GlobalExceptionsMiddleware : IMiddleware
         {
             _logger.LogError("Unknown error occured: {message}, error: {error}", e.Message, e);
 
-            context.Response.StatusCode = (int)ErrorResult.GenericError.StatusCode;
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync(JsonSerializer.Serialize(ErrorResult.GenericError,_jsonOptions));
+            await HandleException(context, e);
         }
     }
+
+    private async Task HandleException(HttpContext context, Exception exception)
+    {
+        var (statusCode, error) = GetStatusCodeAndError(exception);
+
+        context.Response.StatusCode = (int)statusCode;
+        context.Response.ContentType = "application/json";
+        
+        await context.Response.WriteAsync(JsonSerializer.Serialize(error, _jsonOptions));
+    }
+
+    private static (HttpStatusCode httpStatusCode, ErrorResult error) GetStatusCodeAndError(
+        Exception exception) =>
+        exception switch
+        {
+            ValidationResultException validationException => (HttpStatusCode.BadRequest, validationException.Error),
+            _ => (HttpStatusCode.InternalServerError, ErrorResult.GenericError)
+        };
 }
 
 public static class GlobalExceptionsMiddlewareExtensions

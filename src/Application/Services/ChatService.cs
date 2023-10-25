@@ -8,7 +8,7 @@ using Microsoft.SemanticKernel.Orchestration;
 
 namespace Application.Services;
 
-public class ChatService : IChatService
+public sealed class ChatService : IChatService
 {
     private readonly IKernel _kernel;
     private readonly ILogger<ChatService> _logger;

@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Chats.Queries.GetByChatSessionId;
 
-public class GetByChatSessionIdQueryHandler : IRequestHandler<GetByChatSessionIdQueryParams, GetByChatSessionIdQueryResponse>
+public sealed class GetByChatSessionIdQueryHandler : IRequestHandler<GetByChatSessionIdQueryParams, GetByChatSessionIdQueryResponse>
 {
     private readonly IChatMessageRepository _chatMessageRepository;
 

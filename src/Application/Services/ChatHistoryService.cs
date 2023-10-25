@@ -4,7 +4,7 @@ using Domain.Repositories;
 
 namespace Application.Services;
 
-public class ChatHistoryService : IChatHistoryService
+public sealed class ChatHistoryService : IChatHistoryService
 {
     private readonly IChatMessageRepository _chatMessageRepository;
 
