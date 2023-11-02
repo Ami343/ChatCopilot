@@ -23,8 +23,8 @@ public class ChatServiceTests
         // Act
         _ = await sut.GetBotResponse(
             prompt: string.Empty,
-            chatSessionId: Guid.Empty);
-        
+            chatSessionId: string.Empty);
+
         // Assert
         _kernelMock.Verify();
     }

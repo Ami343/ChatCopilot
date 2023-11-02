@@ -37,7 +37,7 @@ public class ChatCommandValidator : AbstractValidator<ChatCommand>, IRequestVali
         return Maybe<ErrorResult>.None;
     }
 
-    private async Task<Maybe<ErrorResult>> ValidateChatSessionExist(Guid chatSessionId)
+    private async Task<Maybe<ErrorResult>> ValidateChatSessionExist(string chatSessionId)
     {
         var chatSession = await _chatSessionRepository.GetById(chatSessionId);
 

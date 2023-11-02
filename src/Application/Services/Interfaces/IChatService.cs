@@ -4,6 +4,6 @@ public interface IChatService
 {
     Task<string?> GetBotResponse(
         string prompt,
-        Guid chatSessionId,
+        string chatSessionId,
         CancellationToken cancellationToken = default);
 }

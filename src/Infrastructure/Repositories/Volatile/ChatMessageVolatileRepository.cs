@@ -6,11 +6,11 @@ namespace Infrastructure.Repositories.Volatile;
 
 public class ChatMessageVolatileRepository : IChatMessageRepository
 {
-    private readonly ConcurrentDictionary<Guid, ChatMessage> _entities;
+    private readonly ConcurrentDictionary<string, ChatMessage> _entities;
 
     public ChatMessageVolatileRepository()
     {
-        _entities = new ConcurrentDictionary<Guid, ChatMessage>();
+        _entities = new ConcurrentDictionary<string, ChatMessage>();
     }
 
     public Task Create(ChatMessage chatMessage)
@@ -23,7 +23,7 @@ public class ChatMessageVolatileRepository : IChatMessageRepository
         return Task.CompletedTask;
     }
 
-    public Task<IEnumerable<ChatMessage>> GetByChatSessionId(Guid chatSessionId)
+    public Task<IEnumerable<ChatMessage>> GetByChatSessionId(string chatSessionId)
         => Task.FromResult(_entities.Values
             .Where(x => x.ChatSessionId == chatSessionId)
             .OrderBy(x => x.CreatedOn)

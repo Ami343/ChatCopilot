@@ -6,5 +6,5 @@ namespace Domain.Repositories;
 public interface IChatSessionRepository
 {
     Task Create(ChatSession chatSession);
-    Task<Maybe<ChatSession>> GetById(Guid id);
+    Task<Maybe<ChatSession>> GetById(string id);
 }

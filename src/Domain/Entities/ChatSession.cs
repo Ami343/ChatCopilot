@@ -1,8 +1,10 @@
+using Domain.Attributes;
 using Domain.Primitives;
 
 namespace Domain.Entities;
 
-public class ChatSession : Entity
+[MongoCollection("ChatSessions")]
+public class ChatSession : MongoEntity
 {
     public DateTimeOffset CreatedOn { get; private set; }
 

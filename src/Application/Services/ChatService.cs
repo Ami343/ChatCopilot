@@ -26,7 +26,7 @@ public sealed class ChatService : IChatService
 
     public async Task<string?> GetBotResponse(
         string prompt,
-        Guid chatSessionId,
+        string chatSessionId,
         CancellationToken cancellationToken = default)
     {
         var function = GetFunction();
@@ -74,13 +74,14 @@ public sealed class ChatService : IChatService
         catch (Exception e)
         {
             _logger.LogError("Failed to execute function, error: {exception}", e);
+            
             throw;
         }
     }
 
     private static ContextVariables GetContextVariables(
         string input,
-        Guid chatSessionId)
+        string chatSessionId)
     {
         var contextVariables = new ContextVariables(input);
         contextVariables.Set("chatSessionId", chatSessionId.ToString());

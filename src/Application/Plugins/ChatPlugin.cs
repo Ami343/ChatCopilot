@@ -30,7 +30,7 @@ public class ChatPlugin
         SKContext context,
         CancellationToken cancellationToken = default)
     {
-        var chatSessionId = Guid.Parse(context.Variables["chatSessionId"]);
+        var chatSessionId = context.Variables["chatSessionId"];
 
         return _chatHistoryService.GetChatHistoryForBotProcessing(chatSessionId);
     }
@@ -74,7 +74,7 @@ public class ChatPlugin
 
         var userIntent = await ExtractUserIntent(context, cancellationToken);
         promptTemplate.AddUserMessage(userIntent);
-       
+
         var result =
             await chatCompletion.GenerateMessageAsync(promptTemplate, default, cancellationToken);
 

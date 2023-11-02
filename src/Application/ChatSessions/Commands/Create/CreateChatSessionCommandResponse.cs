@@ -1,3 +1,3 @@
 namespace Application.ChatSessions.Commands.Create;
 
-public record CreateChatSessionCommandResponse(Guid Id, string InitialMessage);
+public record CreateChatSessionCommandResponse(string Id, string InitialMessage);

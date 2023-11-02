@@ -6,7 +6,7 @@ public class ChatRequest
 {
     [Required] public string Input { get; set; } = string.Empty;
 
-    public ChatCommand GetCommand(Guid chatSessionId)
+    public ChatCommand GetCommand(string chatSessionId)
         => new ChatCommand
         {
             Input = Input,

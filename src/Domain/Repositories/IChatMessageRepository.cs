@@ -6,5 +6,5 @@ public interface IChatMessageRepository
 {
     Task Create(ChatMessage chatMessage);
 
-    Task<IEnumerable<ChatMessage>> GetByChatSessionId(Guid chatSessionId);
+    Task<IEnumerable<ChatMessage>> GetByChatSessionId(string chatSessionId);
 }

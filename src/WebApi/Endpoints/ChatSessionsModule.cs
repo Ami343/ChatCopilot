@@ -26,9 +26,9 @@ public class ChatSessionsModule : ICarterModule
             });
 
         chatSessions.MapPost(
-            pattern: "/{chatSessionId:guid}/messages",
+            pattern: "/{chatSessionId}/messages",
             handler: async (
-                [FromRoute] Guid chatSessionId,
+                [FromRoute] string chatSessionId,
                 [FromBody] ChatRequest request,
                 [FromServices] ISender sender,
                 CancellationToken cancellationToken) =>
@@ -39,9 +39,9 @@ public class ChatSessionsModule : ICarterModule
             });
 
         chatSessions.MapGet(
-            pattern: "/{chatSessionId:guid}/messages",
+            pattern: "/{chatSessionId}/messages",
             handler: async (
-                [FromRoute] Guid chatSessionId,
+                [FromRoute] string chatSessionId,
                 [FromServices] ISender sender, CancellationToken cancellationToken) =>
             {
                 var result = await sender.Send(

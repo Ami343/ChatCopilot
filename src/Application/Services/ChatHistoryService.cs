@@ -13,7 +13,7 @@ public sealed class ChatHistoryService : IChatHistoryService
         _chatMessageRepository = chatMessageRepository;
     }
 
-    public async Task<string> GetChatHistoryForBotProcessing(Guid chatSessionId)
+    public async Task<string> GetChatHistoryForBotProcessing(string chatSessionId)
     {
         var historyMessages = (await _chatMessageRepository.GetByChatSessionId(chatSessionId)).ToList();
 
