@@ -8,11 +8,11 @@ namespace Infrastructure.Repositories.Volatile;
 public class ChatSessionVolatileRepository : IChatSessionRepository
 {
     public static ChatSessionVolatileRepository Instance { get; } = new();
-    private readonly ConcurrentDictionary<Guid, ChatSession> _entities;
+    private readonly ConcurrentDictionary<string, ChatSession> _entities;
     
     public ChatSessionVolatileRepository()
     {
-        _entities = new ConcurrentDictionary<Guid, ChatSession>();
+        _entities = new ConcurrentDictionary<string, ChatSession>();
     }
     
     public Task Create(ChatSession chatSession)
@@ -25,7 +25,7 @@ public class ChatSessionVolatileRepository : IChatSessionRepository
         return Task.CompletedTask;
     }
 
-    public Task<Maybe<ChatSession>> GetById(Guid id)
+    public Task<Maybe<ChatSession>> GetById(string id)
     {
         var result = Maybe<ChatSession>.From(
             _entities.Values.FirstOrDefault(x => x.Id == id));

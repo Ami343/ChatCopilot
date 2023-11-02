@@ -1,5 +1,8 @@
 using Domain.Repositories;
+using Infrastructure.Database;
+using Infrastructure.Database.Interfaces;
 using Infrastructure.Options;
+using Infrastructure.Repositories;
 using Infrastructure.Repositories.Volatile;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +25,9 @@ public static class DependencyInjection
         else
         {
             AddMongoDb(services);
-            // TODO Mongo repos registration 
+
+            services.AddSingleton<IChatMessageRepository, ChatMessageRepository>();
+            services.AddSingleton<IChatSessionRepository, ChatSessionRepository>();
         }
 
 
@@ -36,5 +41,7 @@ public static class DependencyInjection
             var dbConfig = sp.GetRequiredService<IOptions<DatabaseOptions>>().Value;
             return new MongoClient(dbConfig.ConnectionString);
         });
+
+        services.AddSingleton<IChatCopilotDbContext, ChatCopilotDbContext>();
     }
 }
