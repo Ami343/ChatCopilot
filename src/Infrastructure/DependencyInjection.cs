@@ -19,19 +19,27 @@ public static class DependencyInjection
     {
         if (configuration.GetValue<bool>("UseInMemoryStorage"))
         {
-            services.AddSingleton<IChatMessageRepository, ChatMessageVolatileRepository>();
-            services.AddSingleton<IChatSessionRepository, ChatSessionVolatileRepository>();
+            AddVolatileRepositories(services);
         }
         else
         {
             AddMongoDb(services);
-
-            services.AddSingleton<IChatMessageRepository, ChatMessageRepository>();
-            services.AddSingleton<IChatSessionRepository, ChatSessionRepository>();
+            AddRepositories(services);
         }
 
-
         return services;
+    }
+
+    private static void AddRepositories(IServiceCollection services)
+    {
+        services.AddSingleton<IChatMessageRepository, ChatMessageRepository>();
+        services.AddSingleton<IChatSessionRepository, ChatSessionRepository>();
+    }
+
+    private static void AddVolatileRepositories(IServiceCollection services)
+    {
+        services.AddSingleton<IChatMessageRepository, ChatMessageVolatileRepository>();
+        services.AddSingleton<IChatSessionRepository, ChatSessionVolatileRepository>();
     }
 
     private static void AddMongoDb(IServiceCollection services)
