@@ -1,6 +1,7 @@
 using Application.Chats.Commands.Chat;
 using Application.Chats.Queries.GetByChatSessionId;
 using Application.ChatSessions.Commands.Create;
+using Application.ChatSessions.Queries.GetChatSessions;
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -46,6 +47,19 @@ public class ChatSessionsModule : ICarterModule
             {
                 var result = await sender.Send(
                     new GetByChatSessionIdQueryParams { ChatSessionId = chatSessionId },
+                    cancellationToken);
+
+                return Results.Ok(result);
+            });
+
+        chatSessions.MapGet(
+            pattern: "/{userId}/",
+            handler: async (
+                [FromRoute] string? userId,
+                [FromServices] ISender sender, CancellationToken cancellationToken) =>
+            {
+                var result = await sender.Send(
+                    new GetChatSessionsQueryParams() { UserId = userId },
                     cancellationToken);
 
                 return Results.Ok(result);

@@ -7,7 +7,6 @@ namespace Infrastructure.Repositories.Volatile;
 
 public class ChatSessionVolatileRepository : IChatSessionRepository
 {
-    public static ChatSessionVolatileRepository Instance { get; } = new();
     private readonly ConcurrentDictionary<string, ChatSession> _entities;
     
     public ChatSessionVolatileRepository()
@@ -31,5 +30,13 @@ public class ChatSessionVolatileRepository : IChatSessionRepository
             _entities.Values.FirstOrDefault(x => x.Id == id));
      
         return Task.FromResult(result);
+    }
+
+    public Task<IEnumerable<ChatSession>> GetByUserId(string userId)
+    {
+        var entities = _entities.Values;
+        //TODO filter by userId after auth introduction 
+
+        return Task.FromResult(entities.AsEnumerable());
     }
 }

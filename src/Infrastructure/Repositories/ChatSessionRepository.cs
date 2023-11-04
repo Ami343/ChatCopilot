@@ -25,4 +25,13 @@ public class ChatSessionRepository : IChatSessionRepository
 
         return Maybe<ChatSession>.From(collection.FirstOrDefault());
     }
+
+    public async Task<IEnumerable<ChatSession>> GetByUserId(string userId)
+    {
+        var collection = await _context.GetCollection<ChatSession>()
+            .FindAsync<ChatSession>(Builders<ChatSession>.Filter.Empty);
+        //TODO filter by userId after auth introduction 
+
+        return collection.ToEnumerable();
+    }
 }

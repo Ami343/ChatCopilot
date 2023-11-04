@@ -7,4 +7,5 @@ public interface IChatSessionRepository
 {
     Task Create(ChatSession chatSession);
     Task<Maybe<ChatSession>> GetById(string id);
+    Task<IEnumerable<ChatSession>> GetByUserId(string userId);
 }
