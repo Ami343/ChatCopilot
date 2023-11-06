@@ -34,17 +34,25 @@ builder.Services
     .AddApplicationServices()
     .AddInfrastructureServices(builder.Configuration);
 
-builder.Services.AddHealthChecks();
+builder.Services
+    .AddHealthChecks();
+
 builder.Services
     .AddSwaggerGen()
     .AddEndpointsApiExplorer()
     .AddCarter()
     .AddGlobalExceptionMiddleware();
 
+builder.Services
+    .AddCorsPolicy(builder.Configuration);
+
 var app = builder.Build();
 
 // Configure middleware 
 app.UseGlobalExceptionMiddleware();
+
+// Configure CORS 
+app.UseCors();
 
 // Configure health check
 app.MapHealthChecks("/health");
