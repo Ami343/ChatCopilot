@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  chat.api:
+    image: ${DOCKER_REGISTRY-}chatapi
+    container_name: Chat.Api
+    build:
+      context: .
+      dockerfile: src/WebApi/Dockerfile
+
+  chat.db:
+    image: mongo:latest
+    container_name: Chat.Db

@@ -8,6 +8,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4996FF16-27C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{28128DD1-10DC-418B-B15D-3514EFDFE175}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "docker-compose", "docker-compose.dcproj", "{DB0FFABF-90E7-4CF8-8C1A-D3C8C73FF0FD}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "src\Application\Application.csproj", "{9C2CE2DC-6C19-454C-B85A-1518B8586B14}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "src\Domain\Domain.csproj", "{BBCEE896-6DF4-4A5C-8E03-22B12A2042AD}"
@@ -40,6 +42,10 @@ Global
 		{88D5F2AC-6953-4D01-B98C-6B4E13689454}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88D5F2AC-6953-4D01-B98C-6B4E13689454}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88D5F2AC-6953-4D01-B98C-6B4E13689454}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB0FFABF-90E7-4CF8-8C1A-D3C8C73FF0FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB0FFABF-90E7-4CF8-8C1A-D3C8C73FF0FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB0FFABF-90E7-4CF8-8C1A-D3C8C73FF0FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB0FFABF-90E7-4CF8-8C1A-D3C8C73FF0FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7DA7E1DB-AC8A-45DB-AC65-9EE523757ED0} = {4996FF16-27C3-4583-A720-AF831F823FB3}
