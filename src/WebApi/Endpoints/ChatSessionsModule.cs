@@ -59,7 +59,7 @@ public class ChatSessionsModule : ICarterModule
                 [FromServices] ISender sender, CancellationToken cancellationToken) =>
             {
                 var result = await sender.Send(
-                    new GetChatSessionsQueryParams() { UserId = userId },
+                    new GetChatSessionsQueryParams() { UserId = userId! },
                     cancellationToken);
 
                 return Results.Ok(result);

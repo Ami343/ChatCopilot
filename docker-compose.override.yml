@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  chat.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:5024;http://+:5023
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=pass
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    ports:
+      - "5024:5024"
+      - "5023:5023"
+    volumes:
+      - ~/.aspnet/https:/https:ro
+
+  chat.db:
+    ports:
+        - "27017:27017"
+    environment:
+        - MONGO_INITDB_ROOT_USERNAME=chatUser
+        - MONGO_INITDB_ROOT_PASSWORD=pass
