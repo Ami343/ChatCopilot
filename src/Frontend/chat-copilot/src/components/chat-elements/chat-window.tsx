@@ -4,7 +4,6 @@ import { useState } from 'react'
 
 import Container from './container'
 import ChatInput, { FormSchema } from './input'
-import { set } from 'zod'
 
 export default function ChatWindow() {
   const [messages, setMessages] = useState<string[]>([])
@@ -16,9 +15,12 @@ export default function ChatWindow() {
   return (
     <div className="flex h-full flex-col py-16">
       <div className="flex flex-1 flex-col overflow-y-scroll">
-        <Container className="flex flex-col items-start">
+        <Container className="flex flex-col  items-start justify-items-start">
           {messages.map((message, index) => (
-            <div key={index} className="mb-4 rounded-xl bg-gray-700 px-4 py-2">
+            <div
+              key={index}
+              className="mb-4 max-w-md break-words rounded bg-gray-700 px-4 py-3 text-sm text-gray-300"
+            >
               {message}
             </div>
           ))}

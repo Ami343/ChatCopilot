@@ -3,6 +3,7 @@
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { PaperPlaneIcon } from '@radix-ui/react-icons'
 
 import {
   Form,
@@ -34,7 +35,7 @@ export default function ChatInput({ onEnter }: ChatInputProps) {
   })
 
   function onSubmit(values: FormSchema) {
-    if (!form.formState.isValid) return
+    if (values.prompt === '') return
 
     onEnter?.(values)
     form.reset()
@@ -57,11 +58,11 @@ export default function ChatInput({ onEnter }: ChatInputProps) {
                     size="icon"
                     className="absolute right-2 top-1/2 aspect-square h-8 w-8 -translate-y-1/2 transform"
                   >
-                    +
+                    <PaperPlaneIcon />
                   </Button>
                 </div>
               </FormControl>
-              <FormDescription>This is your public display name.</FormDescription>
+              <FormDescription>Input description.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
