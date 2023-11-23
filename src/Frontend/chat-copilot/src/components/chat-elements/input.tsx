@@ -62,7 +62,9 @@ export default function ChatInput({ onEnter }: ChatInputProps) {
                   </Button>
                 </div>
               </FormControl>
-              <FormDescription>Input description.</FormDescription>
+              <FormDescription>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, deserunt?
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
