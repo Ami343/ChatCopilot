@@ -84,7 +84,7 @@ public sealed class ChatService : IChatService
         string chatSessionId)
     {
         var contextVariables = new ContextVariables(input);
-        contextVariables.Set("chatSessionId", chatSessionId.ToString());
+        contextVariables.Set("chatSessionId", chatSessionId);
 
         return contextVariables;
     }
