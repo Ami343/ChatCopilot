@@ -29,6 +29,16 @@ docker-compose build
 docker-compose up
 ```
 
+## Troubleshooting
+
+1. **Issue with certificate when running docker container:** 
+</br>
+*System.InvalidOperationException: ‘Unable to configure HTTPS endpoint. No server certificate was specified, and the default developer certificate could not be found or is out of date'* 
+</br></br> 
+For solution please check: [Link](https://learn.microsoft.com/en-us/aspnet/core/security/docker-compose-https?view=aspnetcore-3.1) 
+
+
+
 ## Authors
 
 Contributors names
