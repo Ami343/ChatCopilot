@@ -4,9 +4,10 @@ import { getChatSessions } from '@/api/external/chat'
 import { Separator } from '@/components/ui/separator'
 import { Pencil2Icon } from '@radix-ui/react-icons'
 import { SidebarItem } from './sidebar-item'
+import { CHAT_SESSIONS } from '@/constants/tags'
 
 export default async function Sidebar() {
-  const response = await getChatSessions({ userId: '1' })
+  const response = await getChatSessions({ userId: '1' }, { next: { tags: [CHAT_SESSIONS] } })
 
   if (response.code === 'error') {
     return <div>Error</div> // TODO: handle error view
