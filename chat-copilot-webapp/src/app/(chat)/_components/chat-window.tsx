@@ -1,13 +1,12 @@
 'use client'
 
-import { useState } from 'react'
-
 import { nextRoute } from '@/api/next-route'
 import { Message } from '@/types/chat'
 import { CreateChatSessionResponse } from '@/types/api'
 import Container from './container'
 import ChatMessage from './chat-message'
 import ChatInput, { FormSchema } from './chat-input'
+import useChatWindow from '../_hooks/use-chat-window'
 
 interface ChatWindowProps {
   chat?: {
@@ -17,23 +16,7 @@ interface ChatWindowProps {
 }
 
 export default function ChatWindow({ chat }: ChatWindowProps) {
-  const [messages, setMessages] = useState(chat?.messages ?? [])
-
-  const createMessage = (actor: Message['actor'], content: Message['content']) => {
-    setMessages((messages) => [
-      ...messages,
-      {
-        actor,
-        content,
-        createdOn: new Date().toISOString(),
-      },
-    ])
-  }
-
-  const replaceUrlWithSessionId = (chatSessionId: string) => {
-    const newUrl = `/${chatSessionId}`
-    window.history.replaceState({ ...window.history.state, as: newUrl, url: newUrl }, '', newUrl)
-  }
+  const { messages, createMessage, replaceUrlWithSessionId } = useChatWindow(chat?.messages)
 
   const onMessageEntered = async (values: FormSchema) => {
     // TODO: send the message to the server
