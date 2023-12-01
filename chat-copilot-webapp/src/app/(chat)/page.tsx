@@ -1,7 +1,5 @@
-import ChatWindow from '@/components/chat-elements/chat-window'
-import Container from '@/components/chat-elements/container'
-import ChatInput from '@/components/chat-elements/input'
+import ChatWindow from '~chat/_components/chat-window'
 
-export default function Home() {
+export default async function Home() {
   return <ChatWindow />
 }

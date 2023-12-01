@@ -23,10 +23,10 @@ const formSchema = z.object({
 export type FormSchema = z.infer<typeof formSchema>
 
 interface ChatInputProps {
-  onEnter?: (values: FormSchema) => void
+  onMessageEntered?: (values: FormSchema) => void
 }
 
-export default function ChatInput({ onEnter }: ChatInputProps) {
+export default function ChatInput({ onMessageEntered }: ChatInputProps) {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,10 +34,10 @@ export default function ChatInput({ onEnter }: ChatInputProps) {
     },
   })
 
-  function onSubmit(values: FormSchema) {
+  async function onSubmit(values: FormSchema) {
     if (values.prompt === '') return
 
-    onEnter?.(values)
+    onMessageEntered?.(values)
     form.reset()
   }
 
@@ -51,7 +51,12 @@ export default function ChatInput({ onEnter }: ChatInputProps) {
             <FormItem className="x">
               <FormControl>
                 <div className="relative h-11">
-                  <Input className="h-11" placeholder="Type in your prompt..." {...field} />
+                  <Input
+                    className="h-11"
+                    placeholder="Type in your prompt..."
+                    autoComplete="off"
+                    {...field}
+                  />
                   <Button
                     type="submit"
                     variant="secondary"
