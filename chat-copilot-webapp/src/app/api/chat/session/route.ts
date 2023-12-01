@@ -1,4 +1,4 @@
-import { createChatSession } from '@/api/chat'
+import { createChatSession } from '@/api/external/chat'
 
 export async function POST() {
   const response = await createChatSession()

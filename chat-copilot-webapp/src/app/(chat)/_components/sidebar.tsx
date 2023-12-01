@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { getChatSessions } from '@/api/chat'
+import { getChatSessions } from '@/api/external/chat'
 import { Separator } from '@/components/ui/separator'
 import { Pencil2Icon } from '@radix-ui/react-icons'
 import { SidebarItem } from './sidebar-item'

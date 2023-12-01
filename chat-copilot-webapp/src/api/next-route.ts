@@ -1,4 +1,4 @@
-import { requestHandler } from './request-handler'
+import { requestHandler } from '../lib/request-handler'
 
 type FetchOptions = Partial<RequestInit>
 

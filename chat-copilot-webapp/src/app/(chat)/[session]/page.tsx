@@ -1,4 +1,4 @@
-import { getMessages } from '@/api/chat'
+import { getMessages } from '@/api/external/chat'
 import ChatWindow from '~chat/_components/chat-window'
 
 export default async function SessionChatWindow({ params }: { params: { session: string } }) {
