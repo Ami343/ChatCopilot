@@ -1,5 +1,5 @@
-import { Message } from '@/types/chat'
 import { useState } from 'react'
+import { Message } from '@/types/chat'
 
 export default function useChatWindow(initialMessages: Message[] = []) {
   const [messages, setMessages] = useState(initialMessages)
