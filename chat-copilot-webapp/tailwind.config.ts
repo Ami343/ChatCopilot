@@ -1,4 +1,9 @@
 /** @type {import('tailwindcss').Config} */
+import colors from 'tailwindcss/colors'
+
+const primary = colors['blue']
+const secondary = colors['pink']
+const tile = colors['gray']
 
 module.exports = {
   darkMode: ['class'],
@@ -24,12 +29,19 @@ module.exports = {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
+          DEFAULT: `hsl(var(--primary))`,
+          ...primary,
           foreground: 'hsl(var(--primary-foreground))',
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
+          DEFAULT: `hsl(var(--secondary))`,
+          ...secondary,
           foreground: 'hsl(var(--secondary-foreground))',
+        },
+        tile: {
+          DEFAULT: tile[900],
+          ...tile,
+          foreground: 'hsl(var(--primary-foreground))',
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
